@@ -95,22 +95,33 @@ cd backend
 mvn clean install -DskipTests
 ```
 
-**Configuration:**
-The application uses environment variables for configuration. You can export these variables in your terminal before running, or rely on the defaults in `application.properties`.
+**Configuration (Local Development):**
+The backend strictly requires several environment variables to start. Do NOT put your real secrets into version control. For local development, you must set these variables in your terminal before running the application. You can view `backend/.env.example` for a list of variables and safe placeholder values.
 
-Required variables for full functionality:
-- `DB_PASSWORD` (Your local MySQL password)
-- `JWT_SECRET` (A long random string for signing JWT tokens)
-- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (For OAuth login)
-- `OPENAI_API_KEY` (For AI suggestions)
+**Windows PowerShell:**
+```powershell
+$env:DB_PASSWORD="replace_with_your_local_mysql_password"
+$env:JWT_SECRET="replace_with_your_local_jwt_secret_key"
+$env:GOOGLE_CLIENT_ID="replace_with_your_google_client_id"
+$env:GOOGLE_CLIENT_SECRET="replace_with_your_google_client_secret"
+$env:OPENAI_API_KEY="replace_with_your_openai_api_key"
 
-**Start the Backend:**
-```bash
-cd backend
-# Example on Windows PowerShell:
-# $env:DB_PASSWORD="your_password"; $env:JWT_SECRET="your_secret_key"; mvn spring-boot:run
 mvn spring-boot:run
 ```
+
+**macOS / Linux:**
+```bash
+export DB_PASSWORD="replace_with_your_local_mysql_password"
+export JWT_SECRET="replace_with_your_local_jwt_secret_key"
+export GOOGLE_CLIENT_ID="replace_with_your_google_client_id"
+export GOOGLE_CLIENT_SECRET="replace_with_your_google_client_secret"
+export OPENAI_API_KEY="replace_with_your_openai_api_key"
+
+mvn spring-boot:run
+```
+
+> **Note on Production:** In a production environment like Railway, these variables are configured directly in the deployment dashboard, ensuring secure isolation from the codebase.
+
 The backend API will start at **http://localhost:8080/api**.
 
 ### 5. Frontend Setup (React/Vite)
