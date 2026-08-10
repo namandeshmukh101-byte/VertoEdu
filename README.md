@@ -6,6 +6,14 @@ AI-Powered School Operations Platform designed to modernize and automate school 
 
 ---
 
+> [!IMPORTANT]
+> ### 🚀 Hackathon Judges: Skip Local Setup
+> To avoid configuring Google Cloud OAuth credentials, MySQL databases, and Python Tesseract binaries locally, we highly recommend evaluating the live production deployment:
+> **Live Demo:** [https://frontend-production-bbd6.up.railway.app/](https://frontend-production-bbd6.up.railway.app/)
+> *(Fully configured with seed data, OCR, AI, and OAuth)*
+
+---
+
 ## Project Overview
 
 VertoEdu is a full-stack web application that streamlines school operations using AI. It provides role-based dashboards for Admins, Teachers, and Parents with features including student management, attendance tracking, AI-powered result analysis, OCR-based document processing, and intelligent notice generation.
