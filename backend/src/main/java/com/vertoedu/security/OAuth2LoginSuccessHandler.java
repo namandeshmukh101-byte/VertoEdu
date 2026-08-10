@@ -57,13 +57,15 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 user.getId()
         );
 
-        // Set JWT as HTTP-only cookie
-        Cookie jwtCookie = new Cookie("jwt", token);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(false); // Set to true in production with HTTPS
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(cookieMaxAge);
-        response.addCookie(jwtCookie);
+        // Set JWT as secure, cross-site compatible ResponseCookie
+        org.springframework.http.ResponseCookie jwtCookie = org.springframework.http.ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true) // Enforce HTTPS
+                .path("/")
+                .maxAge(cookieMaxAge)
+                .sameSite("None") // Allow Cross-Site frontend
+                .build();
+        response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, jwtCookie.toString());
 
         // Redirect to frontend based on role
         String redirectUrl = getRedirectUrlForRole(user.getRole().getName());

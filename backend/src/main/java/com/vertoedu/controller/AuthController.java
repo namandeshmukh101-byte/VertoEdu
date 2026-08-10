@@ -53,12 +53,14 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
-        Cookie jwtCookie = new Cookie("jwt", "");
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(false); // Set to true in production with HTTPS
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(0); // Delete cookie immediately
-        response.addCookie(jwtCookie);
+        org.springframework.http.ResponseCookie jwtCookie = org.springframework.http.ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(true) // Enforce HTTPS
+                .path("/")
+                .maxAge(0) // Delete cookie immediately
+                .sameSite("None") // Allow Cross-Site frontend
+                .build();
+        response.addHeader(org.springframework.http.HttpHeaders.SET_COOKIE, jwtCookie.toString());
 
         SecurityContextHolder.clearContext();
         log.info("User logged out successfully");
