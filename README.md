@@ -44,7 +44,7 @@ VertoEdu/
 
 ## Prerequisites
 
-- **Node.js** ≥ 18.x and **npm** ≥ 9.x
+- **Node.js** ≥ 20.x and **npm** ≥ 10.x
 - **Java** ≥ 17 (JDK)
 - **Maven** ≥ 3.9
 - **MySQL** ≥ 8.0
