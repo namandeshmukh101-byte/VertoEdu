@@ -67,3 +67,4 @@ __pycache__/
 # Global Node
 # ============================================================
 node_modules/
+.railway_db.env
