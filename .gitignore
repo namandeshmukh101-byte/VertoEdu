@@ -68,3 +68,5 @@ __pycache__/
 # ============================================================
 node_modules/
 .railway_db.env
+
+backend/uploads/

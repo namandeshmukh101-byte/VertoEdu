@@ -20,57 +20,23 @@ VertoEdu is a full-stack web application that streamlines school operations usin
 | UI Library     | shadcn/ui + Tailwind CSS            |
 | Icons          | Lucide React                        |
 | Forms          | React Hook Form + Zod               |
-| HTTP Client    | Axios                               |
-| Routing        | React Router DOM                    |
 | Backend        | Spring Boot 3.4                     |
 | Security       | Spring Security + Google OAuth      |
 | ORM            | Spring Data JPA (Hibernate)         |
 | Database       | MySQL                               |
 | AI             | OpenAI API                          |
-| OCR            | OCR Engine                          |
-| Build Tool     | Maven (backend) / Vite (frontend)   |
+| OCR Service    | Python + FastAPI + Tesseract        |
 
 ---
 
 ## Folder Structure
 
-```
+```text
 VertoEdu/
 ├── frontend/                  # React + Vite application
-│   ├── public/                # Static assets (favicon, etc.)
-│   └── src/
-│       ├── assets/            # Images, icons, media
-│       ├── components/        # Reusable UI components
-│       │   └── ui/            # shadcn/ui components
-│       ├── hooks/             # Custom React hooks
-│       ├── layouts/           # Page layout wrappers
-│       ├── lib/               # Utility libraries (cn, etc.)
-│       ├── pages/             # Page-level components
-│       ├── services/          # API service layer (Axios)
-│       ├── utils/             # Shared helper functions
-│       ├── App.jsx            # Root component with routing
-│       ├── main.jsx           # Application entry point
-│       └── index.css          # Global styles + Tailwind
-│
 ├── backend/                   # Spring Boot application
-│   └── src/
-│       ├── main/
-│       │   ├── java/com/vertoedu/
-│       │   │   ├── config/        # Configuration classes
-│       │   │   ├── controller/    # REST API controllers
-│       │   │   ├── dto/           # Data Transfer Objects
-│       │   │   ├── entity/        # JPA entities
-│       │   │   ├── exception/     # Custom exceptions
-│       │   │   ├── repository/    # Data access layer
-│       │   │   ├── security/      # Security configuration
-│       │   │   ├── service/       # Business logic
-│       │   │   └── util/          # Helper utilities
-│       │   └── resources/
-│       │       └── application.properties
-│       └── test/                  # Unit & integration tests
-│
-├── docs/                      # Project documentation
-├── prompts/                   # AI prompt scripts
+├── ocr-service/               # Python FastAPI microservice for OCR processing
+├── database/                  # SQL files for database setup and seed data
 └── README.md                  # This file
 ```
 
@@ -82,10 +48,12 @@ VertoEdu/
 - **Java** ≥ 17 (JDK)
 - **Maven** ≥ 3.9
 - **MySQL** ≥ 8.0
+- **Python** ≥ 3.9 (for OCR service)
+- **Tesseract OCR Engine** (Required for OCR service, see instructions below)
 
 ---
 
-## Installation
+## Installation & Setup
 
 ### 1. Clone the Repository
 
@@ -94,81 +62,87 @@ git clone <repository-url>
 cd VertoEdu
 ```
 
-### 2. Frontend Setup
+### 2. Database Setup (MySQL)
 
+1. Ensure MySQL is running on your local machine (default port `3306`).
+2. Create a database named `vertoedu`.
+3. Import the provided seed data from the `database/` folder:
 ```bash
-cd frontend
-npm install
+mysql -u root -p vertoedu < database/vertoedu_demo_export.sql
 ```
 
-Copy the environment template:
+### 3. OCR Service Setup (Python)
 
+The OCR microservice uses Tesseract to extract text from images and PDFs.
+
+**Install Tesseract Engine:**
+- **Windows:** Download and install from [UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki). Ensure the installation path (e.g., `C:\Program Files\Tesseract-OCR`) is added to your system's `PATH` environment variable.
+- **macOS:** `brew install tesseract`
+- **Linux (Ubuntu/Debian):** `sudo apt-get install tesseract-ocr`
+
+**Install Python Dependencies and Start:**
 ```bash
-cp .env.example .env
+cd ocr-service
+pip install -r requirements.txt
+python -m uvicorn main:app --reload --port 8000
 ```
+The OCR service will start on **http://127.0.0.1:8000**.
 
-Edit `.env` and fill in the required values.
-
-### 3. Backend Setup
+### 4. Backend Setup (Spring Boot)
 
 ```bash
 cd backend
 mvn clean install -DskipTests
 ```
 
-Copy the environment template:
+**Configuration:**
+The application uses environment variables for configuration. You can export these variables in your terminal before running, or rely on the defaults in `application.properties`.
 
+Required variables for full functionality:
+- `DB_PASSWORD` (Your local MySQL password)
+- `JWT_SECRET` (A long random string for signing JWT tokens)
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (For OAuth login)
+- `OPENAI_API_KEY` (For AI suggestions)
+
+**Start the Backend:**
 ```bash
-cp src/main/resources/application.properties.example src/main/resources/application-local.properties
+cd backend
+# Example on Windows PowerShell:
+# $env:DB_PASSWORD="your_password"; $env:JWT_SECRET="your_secret_key"; mvn spring-boot:run
+mvn spring-boot:run
 ```
+The backend API will start at **http://localhost:8080/api**.
 
-Edit `application-local.properties` with your database credentials.
-
----
-
-## How to Run
-
-### Frontend (React + Vite)
+### 5. Frontend Setup (React/Vite)
 
 ```bash
 cd frontend
+npm install
+```
+
+**Configuration:**
+Copy the environment template:
+```bash
+cp .env.example .env
+```
+Edit `.env` and fill in your Google OAuth Client ID (`VITE_GOOGLE_CLIENT_ID`).
+
+**Start the Frontend:**
+```bash
 npm run dev
 ```
-
 The frontend will start at **http://localhost:5173**.
-
-### Backend (Spring Boot)
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-The backend API will start at **http://localhost:8080/api**.
 
 ---
 
-## Environment Variables
+## How to Test
 
-### Frontend (`.env`)
+Once all three services (Frontend, Backend, OCR Service) are running:
 
-| Variable              | Description                |
-|-----------------------|----------------------------|
-| `VITE_API_BASE_URL`   | Backend API base URL       |
-| `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID   |
-
-### Backend (`application.properties`)
-
-| Variable              | Description                |
-|-----------------------|----------------------------|
-| `DB_URL`              | MySQL connection URL       |
-| `DB_USERNAME`         | MySQL username             |
-| `DB_PASSWORD`         | MySQL password             |
-| `GOOGLE_CLIENT_ID`    | Google OAuth Client ID     |
-| `GOOGLE_CLIENT_SECRET`| Google OAuth Client Secret |
-| `OPENAI_API_KEY`      | OpenAI API Key             |
-| `OCR_API_KEY`         | OCR Engine API Key         |
-| `JWT_SECRET`          | JWT signing secret         |
+1. Open your browser and navigate to **http://localhost:5173**.
+2. **Login:** Use the "Continue with Google" button.
+3. **Roles:** Your role is determined by your email. To get Admin access, add your email to the `ADMIN_EMAILS` environment variable in the backend, or manually change your role in the `users` table in the database to `ROLE_ADMIN`.
+4. **OCR Testing:** Navigate to the Admin Dashboard -> OCR Processing to test document uploads (requires the Python OCR service to be running).
 
 ---
 
