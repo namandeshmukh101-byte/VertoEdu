@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
 import { UploadCloud, File, AlertCircle, CheckCircle2 } from 'lucide-react'
-import axios from 'axios'
+import api from '@/services/api'
 
 export default function UploadDocument() {
   const navigate = useNavigate()
@@ -58,9 +58,8 @@ export default function UploadDocument() {
     setError('')
 
     try {
-      const res = await axios.post('/api/ocr/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
+      const res = await api.post('/ocr/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
       navigate(`/admin/ocr/process/${res.data.id}`)
     } catch (err) {

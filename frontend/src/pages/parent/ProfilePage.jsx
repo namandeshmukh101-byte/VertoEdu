@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import axios from 'axios'
+import api from '@/services/api'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,8 +26,8 @@ export default function ProfilePage() {
     const fetchData = async () => {
       try {
         const [profileRes, studentsRes] = await Promise.all([
-          axios.get('/api/parent/me'),
-          axios.get('/api/parent/me/students')
+          api.get('/parent/me'),
+          api.get('/parent/me/students')
         ])
         setProfile(profileRes.data.data)
         setStudents(studentsRes.data.data)
@@ -44,7 +44,7 @@ export default function ProfilePage() {
   const onSubmit = async (data) => {
     try {
       setSaveSuccess(false)
-      await axios.put('/api/parent/me', data)
+      await api.put('/parent/me', data)
       setSaveSuccess(true)
       setTimeout(() => setSaveSuccess(false), 3000)
     } catch (err) {

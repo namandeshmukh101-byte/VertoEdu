@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import axios from 'axios'
+import api from '@/services/api'
 
 export default function AttendancePage() {
   const [searchParams] = useSearchParams()
@@ -15,7 +15,7 @@ export default function AttendancePage() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get('/api/parent/me/students')
+        const res = await api.get('/parent/me/students')
         setStudents(res.data.data)
         if (!selectedStudent && res.data.data.length > 0) {
           setSelectedStudent(res.data.data[0].id.toString())
@@ -33,7 +33,7 @@ export default function AttendancePage() {
     if (!selectedStudent) return
     const fetchAttendance = async () => {
       try {
-        const res = await axios.get(`/api/parent/students/${selectedStudent}/attendance`)
+        const res = await api.get(`/parent/students/${selectedStudent}/attendance`)
         setAttendance(res.data.data)
       } catch (err) {
         console.error('Error fetching attendance:', err)

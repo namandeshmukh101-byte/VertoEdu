@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
 import { Upload, FileText, CheckCircle, Clock, XCircle } from 'lucide-react'
-import axios from 'axios'
+import api from '@/services/api'
 
 export default function OcrDashboard() {
   const [history, setHistory] = useState([])
@@ -14,7 +14,7 @@ export default function OcrDashboard() {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('/api/ocr/history', { withCredentials: true })
+      const res = await api.get('/ocr/history')
       setHistory(res.data)
     } catch (err) {
       console.error('Failed to fetch history', err)
