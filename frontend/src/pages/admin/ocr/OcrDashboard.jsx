@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
-import { Upload, FileText, CheckCircle, Clock, XCircle } from 'lucide-react'
+import { Upload, FileText, CheckCircle, Clock, XCircle, ArrowLeft } from 'lucide-react'
 import api from '@/services/api'
 
 export default function OcrDashboard() {
@@ -37,6 +37,12 @@ export default function OcrDashboard() {
       <Navbar />
       
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-4">
+          <Link to="/admin" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Admin Dashboard
+          </Link>
+        </div>
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-foreground">OCR Intelligence</h1>

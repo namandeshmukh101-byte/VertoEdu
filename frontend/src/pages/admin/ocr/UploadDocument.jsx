@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
-import { UploadCloud, File, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { UploadCloud, File, AlertCircle, CheckCircle2, ArrowLeft } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import api from '@/services/api'
 
 export default function UploadDocument() {
@@ -73,6 +74,12 @@ export default function UploadDocument() {
       <Navbar />
       
       <main className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-xl mb-4">
+          <Link to="/admin/ocr" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back to OCR Dashboard
+          </Link>
+        </div>
         <div className="w-full max-w-xl bg-card border rounded-2xl shadow-lg p-8">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-foreground">Upload Document</h1>

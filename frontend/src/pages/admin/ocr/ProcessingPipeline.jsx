@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
-import { FileText, Cpu, CheckSquare, AlertTriangle, CheckCircle, Save, XCircle } from 'lucide-react'
+import { FileText, Cpu, CheckSquare, AlertTriangle, CheckCircle, Save, XCircle, ArrowLeft } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import api from '@/services/api'
 
 export default function ProcessingPipeline() {
@@ -94,6 +95,12 @@ export default function ProcessingPipeline() {
       <Navbar />
       
       <main className="flex-1 flex flex-col mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-4">
+          <Link to="/admin/ocr" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back to OCR Dashboard
+          </Link>
+        </div>
         <div className="mb-6 flex justify-between items-end">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Document Processing Pipeline</h1>
