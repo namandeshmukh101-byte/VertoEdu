@@ -19,10 +19,10 @@ const MarksEntryPage = () => {
 
   useEffect(() => {
     // Initial data fetch
-    api.get('/teacher/me/classes').then(res => setClasses(res.data.data)).catch(console.error);
-    api.get('/teacher/me/subjects').then(res => setSubjects(res.data.data)).catch(console.error);
+    api.get('/teacher/me/classes').then(res => setClasses(res.data?.data || [])).catch(console.error);
+    api.get('/teacher/me/subjects').then(res => setSubjects(res.data?.data || [])).catch(console.error);
     // Hardcoding academicYearId to 1 for MVP (or fetch from a global context)
-    api.get('/teacher/exams?academicYearId=1').then(res => setExams(res.data.data)).catch(console.error);
+    api.get('/teacher/exams?academicYearId=1').then(res => setExams(res.data?.data || [])).catch(console.error);
   }, []);
 
   const loadStudentsAndMarks = async () => {
@@ -30,7 +30,7 @@ const MarksEntryPage = () => {
     setLoading(true);
     try {
       const res = await api.get(`/teacher/me/classes/${selectedSectionId}/students`);
-      setStudents(res.data.data);
+      setStudents(res.data?.data || []);
       
       const marksRes = await api.get(`/teacher/results?sectionId=${selectedSectionId}&subjectId=${selectedSubjectId}&examId=${selectedExamId}`);
       const existing = {};

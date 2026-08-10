@@ -29,8 +29,8 @@ export default function ProfilePage() {
           api.get('/parent/me'),
           api.get('/parent/me/students')
         ])
-        setProfile(profileRes.data.data)
-        setStudents(studentsRes.data.data)
+        setProfile(profileRes.data?.data || null)
+        setStudents(studentsRes.data?.data || [])
         reset(profileRes.data.data) // initialize form
       } catch (err) {
         console.error('Error fetching profile data:', err)

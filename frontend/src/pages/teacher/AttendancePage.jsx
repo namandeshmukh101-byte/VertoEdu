@@ -13,7 +13,7 @@ const AttendancePage = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    api.get('/teacher/me/classes').then(res => setClasses(res.data.data)).catch(console.error);
+    api.get('/teacher/me/classes').then(res => setClasses(res.data?.data || [])).catch(console.error);
   }, []);
 
   const loadStudents = async () => {
@@ -21,7 +21,7 @@ const AttendancePage = () => {
     setLoading(true);
     try {
       const res = await api.get(`/teacher/me/classes/${selectedSectionId}/students`);
-      setStudents(res.data.data);
+      setStudents(res.data?.data || []);
       // Try to load existing attendance for today
       const attRes = await api.get(`/teacher/attendance?sectionId=${selectedSectionId}&date=${date}`);
       const existing = {};

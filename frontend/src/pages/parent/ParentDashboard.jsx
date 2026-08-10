@@ -24,10 +24,10 @@ export default function ParentDashboard() {
           api.get('/notices'),
           api.get('/parent/exams')
         ])
-        setProfile(profileRes.data.data)
-        setStudents(studentsRes.data.data || [])
-        setNotices(noticesRes.data.data || [])
-        setExams(examsRes.data.data || [])
+        setProfile(profileRes.data?.data || null)
+        setStudents(studentsRes.data?.data || [])
+        setNotices(noticesRes.data?.data || [])
+        setExams(examsRes.data?.data || [])
       } catch (err) {
         console.error('Error fetching dashboard data:', err)
       } finally {
