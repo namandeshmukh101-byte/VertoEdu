@@ -9,7 +9,7 @@ AI-Powered School Operations Platform designed to modernize and automate school 
 > [!IMPORTANT]
 > ### 🚀 Hackathon Judges: Skip Local Setup
 > To avoid configuring Google Cloud OAuth credentials, MySQL databases, and Python Tesseract binaries locally, we highly recommend evaluating the live production deployment:
-> **Live Demo:** [https://frontend-production-bbd6.up.railway.app/](https://frontend-production-bbd6.up.railway.app/)
+> **Live Demo:** [https://verto-edu.vercel.app/](https://verto-edu.vercel.app/)
 > *(Fully configured with seed data, OCR, AI, and OAuth)*
 
 ---
